@@ -486,7 +486,7 @@ const changeTheme = () => {
     </div>
     <div class="box-item button-group">
       <tiny-button-group :data="groupData" v-model="checkedVal"></tiny-button-group>
-      <span>当前选中值：{{ checkedVal }}</span>
+      <span v-if="false">当前选中值：{{ checkedVal }}</span>
     </div>
     <div class="box-item checkbox">
       <tiny-checkbox :indeterminate="isIndeterminate" v-model="checkAll"> 全选 </tiny-checkbox>
@@ -559,19 +559,6 @@ const changeTheme = () => {
       <br />
       <tiny-input class="box-item" type="textarea" v-model="textarea" :maxlength="2000" show-word-limit></tiny-input>
     </div>
-    <div class="box-item ip-address">
-      <tiny-ip-address v-model="ipValue"></tiny-ip-address>
-    </div>
-    <div class="box-item numeric">
-      <tiny-numeric v-model="num1"></tiny-numeric>
-
-      <!-- <br /><br />
-      <tiny-numeric v-model="num1" size="medium"></tiny-numeric>
-      <br /><br />
-      <tiny-numeric v-model="num1" size="small"></tiny-numeric>
-      <br /><br />
-      <tiny-numeric v-model="num1" size="mini"></tiny-numeric> -->
-    </div>
     <div class="box-item radio">
       <tiny-radio v-model="radioValue" label="1">很好</tiny-radio>
       <tiny-radio v-model="radioValue" label="2" text="一般"></tiny-radio>
@@ -586,6 +573,27 @@ const changeTheme = () => {
         <tiny-radio-button label="2">月度</tiny-radio-button>
         <tiny-radio-button label="3">年度</tiny-radio-button>
       </tiny-radio-group>
+    </div>
+    <div class="box-item switch">
+      <tiny-switch v-model="switchValue"></tiny-switch>
+      <tiny-switch></tiny-switch>
+      <br>
+      <br>
+      <tiny-switch v-model="switchValue1" disabled></tiny-switch>
+      <tiny-switch v-model="switchValue2" disabled></tiny-switch>
+    </div>
+    <div class="box-item ip-address">
+      <tiny-ip-address v-model="ipValue"></tiny-ip-address>
+    </div>
+    <div class="box-item numeric">
+      <tiny-numeric v-model="num1"></tiny-numeric>
+
+      <!-- <br /><br />
+      <tiny-numeric v-model="num1" size="medium"></tiny-numeric>
+      <br /><br />
+      <tiny-numeric v-model="num1" size="small"></tiny-numeric>
+      <br /><br />
+      <tiny-numeric v-model="num1" size="mini"></tiny-numeric> -->
     </div>
     <div class="box-item search">
       <tiny-search style="width: 260px;" v-model="searchValue" placeholder="请输入关键词"></tiny-search>
@@ -613,14 +621,6 @@ const changeTheme = () => {
           <tiny-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value"></tiny-option>
         </tiny-option-group>
       </tiny-select>
-    </div>
-    <div class="box-item switch">
-      <tiny-switch v-model="switchValue"></tiny-switch>
-      <tiny-switch></tiny-switch>
-      <br>
-      <br>
-      <tiny-switch v-model="switchValue1" disabled></tiny-switch>
-      <tiny-switch v-model="switchValue2" disabled></tiny-switch>
     </div>
     <div class="box-item pager">
       <tiny-pager mode="complete" :total="100"></tiny-pager>
