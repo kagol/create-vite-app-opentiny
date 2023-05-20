@@ -8,6 +8,14 @@ import {
   setupAssets,
 } from "@/plugins";
 import App from "./App.vue";
+
+import TinyThemeTool from '@opentiny/vue-theme/theme-tool'
+import { tinySmbTheme } from '@opentiny/vue-theme/theme' // 极客黑主题
+console.log('tinySmbTheme', tinySmbTheme);
+
+const theme = new TinyThemeTool(tinySmbTheme, 'tinyStyleSheetId') // 初始化极客黑主题
+console.log('theme', theme);
+
 async function bootStrap() {
   // 设置样式加载
   setupAssets();
