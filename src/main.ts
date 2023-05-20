@@ -11,7 +11,6 @@ import App from "./App.vue";
 
 import TinyThemeTool from '@opentiny/vue-theme/theme-tool'
 import { tinySmbTheme } from '@opentiny/vue-theme/theme' // 极客黑主题
-console.log('tinySmbTheme', tinySmbTheme);
 
 const theme = new TinyThemeTool(tinySmbTheme, 'tinyStyleSheetId') // 初始化极客黑主题
 console.log('theme', theme);
@@ -23,6 +22,7 @@ async function bootStrap() {
   const app = createApp(App);
   app.use(TinyVue);
   // 全局加载
+  app.config.globalProperties.theme = theme
 
   // 注册全局常用的 组件
   setupCustomComponents(app);
