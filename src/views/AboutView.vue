@@ -84,8 +84,8 @@ const groupData = ref([
 ])
 
 
-const checkboxGroup = ref(['北京'])
-const cities = ref(['上海', '北京', '广州', '深圳'])
+const checkboxGroup = ref(['深圳'])
+const cities = ref(['深圳', '上海'])
 
 
 const isIndeterminate = computed(() => {
@@ -219,11 +219,14 @@ const removePass = () => {
 }
 
 
-const input = ref('')
+const textTheme = 'OpenTiny 极客黑主题'
+
+const input1 = ref('')
+const input = ref(textTheme)
 
 
-const text = ref('')
-const textarea = ref('')
+const text = ref(textTheme)
+const textarea = ref(textTheme)
 
 const ipValue = ref('192.168.0.1')
 
@@ -327,19 +330,19 @@ const confirmClick = () => {
 }
 
 const baseClickMessage = () => {
-  Modal.message({ message: '基本提示图标', status: 'info' })
+  Modal.message({ message: '基本提示图标', status: 'info', duration: 20000000 })
 }
 const successClickMessage = () => {
-  Modal.message({ message: '成功提示图标', status: 'success' })
+  Modal.message({ message: '成功提示图标', status: 'success', duration: 20000000 })
 }
 const warningClickMessage = () => {
-  Modal.message({ message: '警告提示图标', status: 'warning' })
+  Modal.message({ message: '警告提示图标', status: 'warning', duration: 20000000 })
 }
 const errorClickMessage = () => {
-  Modal.message({ message: '错误提示图标', status: 'error' })
+  Modal.message({ message: '错误提示图标', status: 'error', duration: 20000000 })
 }
 const loadingClickMessage = () => {
-  Modal.message({ message: '加载提示图标', status: 'loading' })
+  Modal.message({ message: '加载提示图标', status: 'loading', duration: 20000000 })
 }
 
 
@@ -350,24 +353,55 @@ const handleClickNotify = () => {
     title: '通知',
     message: '通知消息的正文，通知消息的正文，通知消息的正文，通知消息的正文，通知消息的正文，通知消息的正文',
     position: 'top-right',
+    duration: 20000000
   })
 }
 
-import { tinySmbTheme } from '@opentiny/vue-theme/theme'
+import { tinyInfinityTheme, tinySmbTheme } from '@opentiny/vue-theme/theme'
 const theme = getCurrentInstance().appContext.config.globalProperties.theme
 
-const changeTheme = () => {
-  if (theme.currentTheme.id === 'tiny-default-theme') {
-    theme.changeTheme(tinySmbTheme)
-  } else {
-    theme.changeTheme()
-  }
+console.log('tinySmbTheme', tinySmbTheme);
+
+
+const watermelonRedTheme = {
+  id: 'watermelon-red-theme', // 主题的唯一id，每个主题必须唯一
+  name: 'Watermelon Red Theme', // 主题的英文名称
+  cnName: '西瓜红主题', // 主题的中文名称
+  data: {
+    ...tinySmbTheme.data,
+    'ti-base-color-brand': '#ab1b2c', // 西瓜红
+    'ti-common-color-data-1': '#ab1b2c',
+    'ti-common-color-bg-light-emphasize': 'rgba(171, 27, 44, .5)',
+    'ti-base-color-brand-2': '#ab1b2c', // 西瓜红
+    'ti-common-color-line-active': '#ab1b2c', // 西瓜红
+    'ti-base-color-brand-1': 'rgba(171, 27, 44, .8)', // 西瓜红
+    'ti-base-color-brand-6': '#ab1b2c', // 西瓜红
+    'ti-base-color-brand-3': 'rgba(171, 27, 44, .3)',
+    'ti-base-color-brand-5': 'rgba(171, 27, 44, .8)',
+  } // 主题变量
+}
+
+console.log('watermelonRedTheme', watermelonRedTheme);
+
+
+const THEME_MAP = {
+  'default-theme': '',
+  'infinity-theme': tinyInfinityTheme,
+  'smb-theme': tinySmbTheme,
+  'watermelon-red-theme': watermelonRedTheme
+}
+
+const changeTheme = (value) => {
+  theme.changeTheme(THEME_MAP[value.vm.label])
 }
 </script>
 
 <template>
   <div class="about">
-    <tiny-dropdown style="position: fixed; bottom: 60px; right: 60px; cursor: pointer;">
+    <tiny-dropdown
+      style="position: fixed; bottom: 60px; right: 60px; cursor: pointer;"
+      @item-click="changeTheme"
+    >
       <svg
         viewBox="0 0 1024 1024"
         width="32"
@@ -377,12 +411,24 @@ const changeTheme = () => {
       </svg>
       <template #dropdown>
         <tiny-dropdown-menu popper-class="my-class" placement="top">
-          <tiny-dropdown-item label="default-theme" @click="changeTheme">默认主题</tiny-dropdown-item>
-          <tiny-dropdown-item label="smb-theme" @click="changeTheme">极客黑主题</tiny-dropdown-item>
+          <tiny-dropdown-item label="default-theme">默认主题</tiny-dropdown-item>
+          <tiny-dropdown-item label="infinity-theme">无限主题</tiny-dropdown-item>
+          <tiny-dropdown-item label="smb-theme">极客黑主题</tiny-dropdown-item>
+          <tiny-dropdown-item label="watermelon-red-theme">西瓜红主题</tiny-dropdown-item>
         </tiny-dropdown-menu>
       </template>
     </tiny-dropdown>
-    <h1>OpenTiny 极客黑效果</h1>
+    <h1 style="margin-top: 500px;">OpenTiny 极客黑效果</h1>
+    <div class="box-item notify">
+      <tiny-button @click="handleClickNotify" :reset-time="0">弹出提示框</tiny-button>
+    </div>
+    <div class="box-item modal message">
+      <tiny-button @click="baseClickMessage" :reset-time="0">基本提示图标</tiny-button>
+      <tiny-button @click="successClickMessage" :reset-time="0">成功提示图标</tiny-button>
+      <tiny-button @click="warningClickMessage" :reset-time="0">警告提示图标</tiny-button>
+      <tiny-button @click="errorClickMessage" :reset-time="0">错误提示图标</tiny-button>
+      <tiny-button @click="loadingClickMessage" :reset-time="0">加载提示图标</tiny-button>
+    </div>
     <div class="box-item button">
       <tiny-button>默认按钮</tiny-button>
       <tiny-button type="primary">主要按钮</tiny-button>
@@ -401,6 +447,16 @@ const changeTheme = () => {
       <tiny-button type="success" loading>加载中</tiny-button>
       <tiny-button type="warning" loading>加载中</tiny-button>
       <tiny-button type="danger" loading>加载中</tiny-button>
+    </div>
+    <div class="box-item dialog-box">
+      <tiny-button @click="boxVisibility = true" :title="'弹出Dialog' + boxVisibility">弹出 Dialog</tiny-button>
+      <tiny-dialog-box v-model:visible="boxVisibility" title="消息" width="30%">
+        <span>dialog-box内容</span>
+        <template #footer>
+          <tiny-button type="primary" @click="boxVisibility = false">确 定</tiny-button>
+          <tiny-button @click="boxVisibility = false">取 消</tiny-button>
+        </template>
+      </tiny-dialog-box>
     </div>
     <div class="box-item tabs">
       <tiny-tabs v-model="activeName" style="width: 600px;" :show-more-tabs="false">
@@ -443,16 +499,6 @@ const changeTheme = () => {
           <tiny-dropdown-menu :options="options"> </tiny-dropdown-menu>
         </template>
       </tiny-dropdown>
-    </div>
-    <div class="box-item dialog-box">
-      <tiny-button @click="boxVisibility = true" :title="'弹出Dialog' + boxVisibility">弹出 Dialog</tiny-button>
-      <tiny-dialog-box v-model:visible="boxVisibility" title="消息" width="30%">
-        <span>dialog-box内容</span>
-        <template #footer>
-          <tiny-button type="primary" @click="boxVisibility = false">确 定</tiny-button>
-          <tiny-button @click="boxVisibility = false">取 消</tiny-button>
-        </template>
-      </tiny-dialog-box>
     </div>
     <div class="box-item dialog-box right">
       <tiny-button @click="boxVisibilityDrawer = true">右侧弹窗</tiny-button>
@@ -501,10 +547,33 @@ const changeTheme = () => {
         <tiny-checkbox label="上海" name="name2" disabled></tiny-checkbox>
       </tiny-checkbox-group>
     </div>
-    <div class="box-item checkbox-button">
+    <div v-if="false" class="box-item checkbox-button">
       <tiny-checkbox-group v-model="checkboxGroup1">
         <tiny-checkbox-button v-for="city in cities" :label="city" :key="city">{{ city }}</tiny-checkbox-button>
       </tiny-checkbox-group>
+    </div>
+    <div class="box-item radio">
+      <tiny-radio v-model="radioValue" label="1">很好</tiny-radio>
+      <tiny-radio v-model="radioValue" label="2" text="一般"></tiny-radio>
+      <br>
+      <br>
+      <tiny-radio v-model="radioValue2" label="1" disabled>很好</tiny-radio>
+      <tiny-radio v-model="radioValue2" label="2" text="一般" disabled></tiny-radio>
+    </div>
+    <div v-if="false" class="box-item radio-button">
+      <tiny-radio-group v-model="radio2">
+        <tiny-radio-button label="1">日度</tiny-radio-button>
+        <tiny-radio-button label="2">月度</tiny-radio-button>
+        <tiny-radio-button label="3">年度</tiny-radio-button>
+      </tiny-radio-group>
+    </div>
+    <div class="box-item switch">
+      <tiny-switch v-model="switchValue" style="margin-right: 20px;"></tiny-switch>
+      <tiny-switch></tiny-switch>
+      <br>
+      <br>
+      <tiny-switch v-model="switchValue1" disabled style="margin-right: 20px;"></tiny-switch>
+      <tiny-switch v-model="switchValue2" disabled></tiny-switch>
     </div>
     <div class="box-item date-picker">
       <div style="width: 270px">
@@ -549,7 +618,7 @@ const changeTheme = () => {
       </div>
     </div>
     <div class="box-item input" style="width: 300px;">
-      <tiny-input class="box-item" v-model="input" placeholder="请输入内容"></tiny-input>
+      <tiny-input class="box-item" v-model="input1" placeholder="请输入内容"></tiny-input>
       <tiny-input class="box-item" v-model="input" clearable></tiny-input>
       <tiny-input class="box-item" type="password" v-model="input" show-password></tiny-input>
       <tiny-input class="box-item" type="textarea" v-model="input" placeholder="resize 为默认"></tiny-input>
@@ -558,29 +627,6 @@ const changeTheme = () => {
       <br />
       <br />
       <tiny-input class="box-item" type="textarea" v-model="textarea" :maxlength="2000" show-word-limit></tiny-input>
-    </div>
-    <div class="box-item radio">
-      <tiny-radio v-model="radioValue" label="1">很好</tiny-radio>
-      <tiny-radio v-model="radioValue" label="2" text="一般"></tiny-radio>
-      <br>
-      <br>
-      <tiny-radio v-model="radioValue2" label="1" disabled>很好</tiny-radio>
-      <tiny-radio v-model="radioValue2" label="2" text="一般" disabled></tiny-radio>
-    </div>
-    <div class="box-item radio-button">
-      <tiny-radio-group v-model="radio2">
-        <tiny-radio-button label="1">日度</tiny-radio-button>
-        <tiny-radio-button label="2">月度</tiny-radio-button>
-        <tiny-radio-button label="3">年度</tiny-radio-button>
-      </tiny-radio-group>
-    </div>
-    <div class="box-item switch">
-      <tiny-switch v-model="switchValue"></tiny-switch>
-      <tiny-switch></tiny-switch>
-      <br>
-      <br>
-      <tiny-switch v-model="switchValue1" disabled></tiny-switch>
-      <tiny-switch v-model="switchValue2" disabled></tiny-switch>
     </div>
     <div class="box-item ip-address">
       <tiny-ip-address v-model="ipValue"></tiny-ip-address>
@@ -675,16 +721,6 @@ const changeTheme = () => {
       <tiny-button @click="successClick" :reset-time="0">成功提示框</tiny-button>
       <tiny-button @click="errorClick" :reset-time="0">失败提示框</tiny-button>
       <tiny-button @click="confirmClick" :reset-time="0">确认提示框</tiny-button>
-    </div>
-    <div class="box-item modal message">
-      <tiny-button @click="baseClickMessage" :reset-time="0">基本提示图标</tiny-button>
-      <tiny-button @click="successClickMessage" :reset-time="0">成功提示图标</tiny-button>
-      <tiny-button @click="warningClickMessage" :reset-time="0">警告提示图标</tiny-button>
-      <tiny-button @click="errorClickMessage" :reset-time="0">错误提示图标</tiny-button>
-      <tiny-button @click="loadingClickMessage" :reset-time="0">加载提示图标</tiny-button>
-    </div>
-    <div class="box-item notify">
-      <tiny-button @click="handleClickNotify" :reset-time="0">弹出提示框</tiny-button>
     </div>
     <div class="box-item">
     </div>
